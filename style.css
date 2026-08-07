@@ -104,6 +104,14 @@
     direction: rtl; /* RTL direction for Arabic text */
 }
 
+/* هذا الكود سيحول أي صورة قلب داخل الدائرة إلى اللون الأبيض */
+.avatar-circle img {
+    filter: brightness(0) invert(1);
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
 .avatar-circle {
     width: 70px;
     height: 70px;
@@ -113,7 +121,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #1e293b;
+    background: #1e293b; /* الخلفية الكحلية ستجعل القلب الأبيض يظهر بوضوح */
     overflow: hidden;
 }
 
