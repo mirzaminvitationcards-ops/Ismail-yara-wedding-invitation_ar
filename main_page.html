@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دعوة زفاف - إسماعيل و يارا</title>
+    
+    <!-- We load your style.css first -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* This section FORCES the floral image to appear and removes the blue gradient */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden !important;
+        }
+
+        body {
+            /* 1. This line overrides the blue gradient from style.css */
+            background-image: url("background.webp") !important; 
+            background-size: cover !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+            
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            min-height: 100dvh !important;
+        }
+
+        /* PC Scaling */
+        .envelope-wrapper {
+            position: relative;
+            z-index: 10;
+            transform: scale(0.85);
+        }
+
+        /* Mobile Fix */
+        @media screen and (max-width: 768px) {
+    body {
+        background-image: url("mobile-background.webp") !important;
+        background-position: center top !important;
+    }
+
+    /* 1. Rectangular Envelope remains as we built it */
+    .envelope-wrapper {
+        width: 360px !important;
+        height: 200px !important;
+        transform: scale(0.65) translateY(60px) !important;
+        display: block !important;
+    }
+
+    .envelope {
+        position: absolute !important;
+        width: 360px !important;
+        height: 200px !important;
+    }
+
+    /* 2. INCREASED FONT SIZES (Mobile Only) */
+    .name { 
+        font-size: 38px !important; /* Larger names */
+        letter-spacing: 2px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .and-text { 
+        font-size: 50px !important; /* Larger ampersand */
+        margin: 10px 0 !important;
+    }
+
+    .wedding-date { 
+        font-size: 20px !important; /* Larger date */
+        margin-top: 10px !important;
+    }
+
+    .invite-text { 
+        font-size: 16px !important; /* Larger cordially invite text */
+        margin-bottom: 20px !important;
+    }
+
+    /* 3. LARGER BUTTON (Mobile Only) */
+    .open-btn {
+        padding: 15px 0 !important;
+        font-size: 18px !important;
+        width: 90% !important;
+        border-radius: 50px !important;
+    }
+
+    /* 4. ADJUST THE CARD TO FIT BIGGER TEXT */
+    .invitation-card {
+        position: absolute !important;
+        width: 340px !important;
+        height: 480px !important; /* Made taller to fit the bigger text */
+        padding: 40px 20px !important;
+        left: 10px !important;
+        bottom: 10px !important;
+        transform: scale(1) !important;
+    }
+
+    /* 5. ADJUST OPEN ANIMATION */
+    /* Since the text is bigger and card is taller, 
+       we pop it up higher to make sure the button is visible */
+    .envelope-wrapper.open .invitation-card {
+        transform: translateY(-380px) !important; 
+        z-index: 10 !important;
+    }
+    
+    .envelope-wrapper.open .flap {
+        transform: rotateX(180deg) !important;
+        z-index: 1 !important;
+    }
+
+    .wax-seal {
+        top: 85px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <!-- ... (Invitation Card Content) ... -->
+        <div class="invitation-card">
+            <div class="avatar-circle">
+                <img src="heart.png" alt="♥" style="width: 40px; height: 40px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/833/833472.png'">
+            </div>
+            <h1 class="name">إسماعيل</h1>
+            <span class="and-text">&</span>
+            <h1 class="name">يارا</h1>
+            <div class="elegant-line"></div>
+            <p class="wedding-date">٠٤ سبتمبر ٢٠٢٦</p>
+            <p class="invite-text">يتشرفان بدعوتكم لحضور حفل زفافهما</p>
+            <a href="details.html" class="open-btn">افتح الدعوة</a>
+        </div>
+
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="pocket"></div>
+            <div class="wax-seal" id="waxSeal">
+                <span style="font-size: 25px; color: white;">♥</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const waxSeal = document.getElementById('waxSeal');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        waxSeal.addEventListener('click', (e) => {
+            e.stopPropagation();
+            envelopeWrapper.classList.add('open');
+        });
+    </script>
+</body>
+</html>

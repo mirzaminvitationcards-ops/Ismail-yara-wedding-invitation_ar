@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الزفاف</title>
+    <link rel="stylesheet" href="details.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ADDED CSS FOR THE DELETE BUTTON */
+        .wish-card { position: relative; }
+        .delete-wish-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px; /* Changed to left for RTL support */
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+        }
+        .delete-wish-btn:hover { background: #fecaca; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <!-- FLOATING MUSIC BUTTON -->
+    <div class="music-controller">
+        <button id="musicBtn" class="floating-music-btn" onclick="toggleMusic()">
+            <i id="musicIcon" class="fas fa-play"></i>
+            <span id="musicText">تشغيل الموسيقى</span>
+        </button>
+    </div>
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="weddingMusic" loop autoplay>
+        <source src="wedding-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="main-content">
+        <h1 class="title">تفاصيل الحفل</h1>
+       <p class="announcement" id="invitation-text">يسعدنا أن نعلن عن<br>زفاف أبنائنا</p>
+
+        <div class="blue-line"></div>
+
+        <div class="names-stack">
+            <h2 class="main-name">إسماعيل</h2>
+            <span class="role">العريس</span>
+            <span class="small-ampersand">&</span>
+            <h2 class="main-name">يارا</h2>
+            <span class="role">العروس</span>
+            <div class="name-finish-line"></div>
+        </div>
+
+        <div class="gallery-section">
+            <h3 class="gallery-title">معرض الصور</h3>
+            <div class="photo-grid">
+                <div class="photo-placeholder"><img src="pngtree-cartoon-bride-and-groom-appear-png-image_20553976.webp" alt="صورة 1"></div>
+                <div class="photo-placeholder"><img src="pngtree-cartoon-bride-and-groom-appear-png-image_20553976.webp" alt="صورة 2"></div>
+            </div>
+        </div>
+
+        <div class="reception-section">
+            <h2 class="gallery-title">تفاصيل الاستقبال</h2>
+            <div class="time-date-box">
+                <span class="big-time">08:00</span>
+                <div class="date-divider"></div>
+                <span class="big-date">الجمعة | 04 | سبتمبر</span>
+            </div>
+
+            <div id="countdown" class="countdown-container">
+                <div class="time-unit"><span id="days">00</span><label>أيام</label></div>
+                <div class="time-unit"><span id="hours">00</span><label>ساعات</label></div>
+                <div class="time-unit"><span id="minutes">00</span><label>دقائق</label></div>
+                <div class="time-unit"><span id="seconds">00</span><label>ثواني</label></div>
+            </div>
+        </div>
+
+        <div class="calendar-wrapper">
+            <img src="096549f7-6231-488b-a4a4-dbf3e3348906.webp" alt="تقويم سبتمبر 2026">
+        </div>
+
+        <div class="venue-section">
+            <div class="mini-blue-line"></div> 
+            <h3 class="gallery-title">مكان الحفل</h3>
+            <p class="venue-name">لامور في آي بي (LAMOUR VIP)</p>
+            <p class="venue-location">ميدان الرماية، الجيزة</p>
+            <a href="https://maps.app.goo.gl/52Trp4tfgz3rrwZH6" target="_blank" class="map-link-btn">عرض على الخريطة</a>
+        </div>
+
+        <div class="schedule-section">
+            <div class="mini-blue-line"></div>
+            <h3 class="gallery-title">جدول اليوم</h3>
+            <div class="timeline">
+                <div class="timeline-item"><div class="time">06:30</div><div class="dot-container"><div class="dot"></div></div><div class="event">الاستقبال والتجميع</div></div>
+                <div class="timeline-item"><div class="time">07:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">بداية الحفل</div></div>
+                <div class="timeline-item"><div class="time">08:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">الرقصة الأولى والفقرات</div></div>
+                <div class="timeline-item"><div class="time">08:45</div><div class="dot-container"><div class="dot"></div></div><div class="event">التجهيز للمفتوح</div></div>
+                <div class="timeline-item"><div class="time">09:30</div><div class="dot-container"><div class="dot"></div></div><div class="event">البوفيه مفتوح</div></div>
+                <div class="timeline-item"><div class="time">10:15</div><div class="dot-container"><div class="dot"></div></div><div class="event">فقرة استثنائية</div></div>
+                <div class="timeline-item"><div class="time">00:00</div><div class="dot-container"><div class="dot"></div></div><div class="event">الختام</div></div>
+            </div>
+        </div>
+
+        <div class="guestbook-section">
+            <div class="mini-blue-line"></div>
+            <h3 class="gallery-title">سجل الزوار</h3>
+            <form id="guestbook-form" class="guestbook-form">
+                <input type="text" id="guest-name" placeholder="اسمك" required>
+                <textarea id="guest-wish" placeholder="اكتب تهنئتك هنا..." rows="4" required></textarea>
+                <button type="submit" class="oval-btn-small">إرسال التهنئة</button>
+            </form>
+            <div id="wishes-display" class="wishes-container"></div>
+        </div>
+
+        <div class="nav">
+            <a href="main_page.html" class="oval-btn">العودة</a>
+            
+            <!-- NEW AFTER PARTY BUTTON -->
+            <button onclick="accessAfterParty()" class="after-party-trigger">دخول السهرة الخاصة</button>
+            
+       <div class="credit-badge-container">
+    <div class="credit-oval-badge">
+        <span class="made-by-text">تم التصميم بواسطة</span> 
+        <a href="https://mirzaminvitationcards-ops.github.io/mirzam.eg/Mirzam's_Main_page" target="_blank" class="mirzam-logo-link">
+            MIRZAM<span class="gold-text">.EG</span>
+        </a>
+    </div>
+</div>
+        </div>
+    </div> <!-- End of main-content -->
+
+    <!-- AFTER PARTY MODAL (Popup Window) -->
+    <div id="partyModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 class="gallery-title" style="font-size: 20px; margin-top: 10px;">السهرة الخاصة (AFTER PARTY)</h3>
+            <div class="mini-blue-line"></div>
+            <p class="venue-name" style="font-size: 18px;">احتفال خاص</p>
+            <p class="venue-location">اضغط أدناه للوصول إلى الموقع السري لسهرتنا الخاصة.</p>
+            <a href="https://www.google.com/maps?q=29.968673706054688,30.958772659301758&z=17&hl=ar" target="_blank" class="map-link-btn">افتح في خرائط جوجل</a>
+        </div>
+    </div>
+
+    <script>
+    /* --- 1. Personalized Greeting Logic --- */
+    window.addEventListener('load', () => {
+        let guestName = localStorage.getItem('wedding_guest_name');
+        if (!guestName || guestName.trim() === "") guestName = "الضيف العزيز";
+
+        const inviteElement = document.getElementById('invitation-text');
+        if (inviteElement) {
+            inviteElement.innerHTML = `يسعدنا جداً دعوتكم <br> 
+                <span style="color: #60a5fa; font-size: 18px; font-weight: 800; text-transform: uppercase;">"${guestName}"</span> <br> 
+                لمشاركتنا فرحتنا في هذا اليوم المميز…`;
+        }
+        const guestbookInput = document.getElementById('guest-name');
+        if (guestbookInput) guestbookInput.value = guestName;
+    });
+
+/* --- Final Music Fix (State-Sync) --- */
+const music = document.getElementById("weddingMusic");
+const musicBtn = document.getElementById("musicBtn");
+const musicIcon = document.getElementById("musicIcon");
+const musicLabel = document.getElementById("musicText");
+
+// 1. THE BRAIN: This function makes the button match the ACTUAL music state
+function syncButtonWithMusic() {
+    if (music.paused) {
+        musicBtn.classList.remove("playing");
+        musicIcon.className = "fas fa-play";
+        musicLabel.innerText = "تشغيل الموسيقى";
+    } else {
+        musicBtn.classList.add("playing");
+        musicIcon.className = "fas fa-pause";
+        musicLabel.innerText = "إيقاف الموسيقى";
+    }
+}
+
+// 2. TELL THE MUSIC TO UPDATE THE BUTTON:
+// These run automatically whenever the music starts or stops
+music.onplay = syncButtonWithMusic;
+music.onpause = syncButtonWithMusic;
+
+// 3. THE TOGGLE: Only handle the audio, let the sync above handle the UI
+function toggleMusic() {
+    if (music.paused) {
+        music.play().catch(e => console.log("Playback blocked"));
+    } else {
+        music.pause();
+    }
+}
+
+// 4. THE MOBILE FIX: First touch starts the music
+function handleFirstInteraction() {
+    if (music.paused) {
+        music.play().then(() => {
+            // Once it starts, the 'onplay' event above will fix the button instantly
+            window.removeEventListener('touchstart', handleFirstInteraction);
+            window.removeEventListener('click', handleFirstInteraction);
+        }).catch(e => console.log("Waiting for user..."));
+    }
+}
+
+window.addEventListener('touchstart', handleFirstInteraction);
+window.addEventListener('click', handleFirstInteraction);
+
+// Also try to start on load for PC
+window.addEventListener('DOMContentLoaded', () => {
+    syncButtonWithMusic(); // Set initial state
+    setTimeout(() => { music.play().catch(() => {}); }, 1000);
+});
+
+    /* --- 3. Countdown Logic --- */
+    const targetDate = new Date("September 4, 2026 20:00:00").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const dist = targetDate - now;
+        document.getElementById("days").innerText = Math.floor(dist / 86400000).toString().padStart(2, '0');
+        document.getElementById("hours").innerText = Math.floor((dist % 86400000) / 3600000).toString().padStart(2, '0');
+        document.getElementById("minutes").innerText = Math.floor((dist % 3600000) / 60000).toString().padStart(2, '0');
+        document.getElementById("seconds").innerText = Math.floor((dist % 60000) / 1000).toString().padStart(2, '0');
+    }, 1000);
+
+    /* --- 4. Guestbook & Modal Logic --- */
+    let myId = localStorage.getItem('wedding_user_id') || 'user_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('wedding_user_id', myId);
+
+    const wishForm = document.getElementById('guestbook-form');
+    const wishesDisplay = document.getElementById('wishes-display');
+
+    window.addEventListener('load', loadWishes);
+
+    wishForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+        const newWish = {
+            id: Date.now(), 
+            ownerId: myId,
+            name: document.getElementById('guest-name').value,
+            wish: document.getElementById('guest-wish').value
+        };
+        wishes.unshift(newWish);
+        localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+        document.getElementById('guest-wish').value = ""; 
+        loadWishes();
+    });
+
+    function loadWishes() {
+        wishesDisplay.innerHTML = '';
+        const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
+        wishes.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'wish-card';
+            const deleteBtnHtml = item.ownerId === myId ? `<button class="delete-wish-btn" onclick="deleteWish(${item.id})"><i class="fas fa-trash-alt"></i> حذف</button>` : '';
+            card.innerHTML = `<h4>${item.name}</h4><p>"${item.wish}"</p>${deleteBtnHtml}`;
+            wishesDisplay.appendChild(card);
+        });
+    }
+
+    function deleteWish(id) {
+        if (confirm("هل أنت تأكد من حذف هذه الرسالة؟")) {
+            let wishes = JSON.parse(localStorage.getItem('weddingWishes')).filter(w => w.id !== id);
+            localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+            loadWishes();
+        }
+    }
+
+    function accessAfterParty() {
+        const password = prompt("يرجى إدخال رمز الدخول:");
+        if (password === "6627") document.getElementById('partyModal').style.display = 'flex';
+        else if (password !== null) alert("كلمة المرور غير صحيحة.");
+    }
+
+    function closeModal() { document.getElementById('partyModal').style.display = 'none'; }
+    window.onclick = function(event) { if (event.target == document.getElementById('partyModal')) closeModal(); }
+</script>
+</body>
+</html>

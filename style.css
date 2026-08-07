@@ -1,0 +1,208 @@
+/* 1. Import Premium Arabic & Latin Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@keyframes move {
+    from { transform: translate(0, 0); }
+    to { transform: translate(100px, 100px); }
+}
+
+/* --- ENVELOPE WRAPPER --- */
+.envelope-wrapper {
+    position: relative;
+    width: 520px;
+    height: 350px;
+    z-index: 10;
+    perspective: 1500px;
+    margin-top: 80px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* 3D Envelope Base */
+.envelope {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #253346;
+    border-radius: 8px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+
+/* Top Flap */
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #192231;
+    clip-path: polygon(0 0, 50% 62%, 100% 0);
+    z-index: 5;
+    transform-origin: top;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.4s;
+    filter: drop-shadow(0px 6px 5px rgba(0,0,0,0.5));
+}
+
+/* Envelope Front Pocket */
+.pocket {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #253346;
+    clip-path: polygon(0 35%, 50% 62%, 100% 35%, 100% 100%, 0 100%);
+    z-index: 4;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Wax Seal */
+.wax-seal {
+    position: absolute;
+    top: 198px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65px;
+    height: 65px;
+    background: radial-gradient(circle at 35% 35%, #dc2626, #7f1d1d);
+    border-radius: 50%;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    border: 2px solid #991b1b;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* --- THE INVITATION CARD --- */
+.invitation-card {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    width: 350px;
+    height: 470px;
+    background: #fdfaf3;
+    border-radius: 30px;
+    padding: 35px 25px;
+    text-align: center;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s, opacity 0.6s ease 0.5s, z-index 0s 0.5s;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    direction: rtl; /* RTL direction for Arabic text */
+}
+
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #5dade2;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1e293b;
+    overflow: hidden;
+}
+
+.name {
+    font-family: 'Amiri', 'Cinzel', serif;
+    font-size: 34px;
+    letter-spacing: 0px;
+    color: #1e293b;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.and-text {
+    font-family: 'Amiri', 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 42px;
+    color: #5dade2;
+    display: block;
+    margin: 4px 0;
+}
+
+.elegant-line {
+    width: 50px;
+    height: 1px;
+    background: #cbd5e1;
+    margin: 15px auto;
+}
+
+/* --- DATE SIZE INCREASE --- */
+.wedding-date { 
+    font-family: 'Cairo', 'Inter', sans-serif;
+    font-weight: 700; 
+    color: #1e293b; 
+    font-size: 18px;
+    letter-spacing: 0px;
+    margin-top: 5px;
+}
+
+/* --- INVITE TEXT SIZE INCREASE --- */
+.invite-text { 
+    font-family: 'Cairo', 'Inter', sans-serif;
+    color: #64748b; 
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 5px;
+    margin-bottom: 25px; 
+    line-height: 1.4;
+}
+
+.open-btn {
+    font-family: 'Cairo', sans-serif;
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    background: #2c3748;
+    color: white;
+    text-decoration: none;
+    padding: 12px 0;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.open-btn:hover { 
+    background: #1e293b; 
+    transform: scale(1.03); 
+}
+
+/* --- OPEN STATE ANIMATION --- */
+.envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
+.envelope-wrapper.open .wax-seal { opacity: 0; transform: translate(-50%, -20px) scale(0); }
+.envelope-wrapper.open .invitation-card {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -140px) scale(1); 
+    z-index: 10;
+}
+
+@media (max-width: 600px) {
+    .envelope-wrapper { transform: scale(0.8); margin-top: 100px; }
+    .envelope-wrapper.open .invitation-card { transform: translate(-50%, -180px) scale(1); }
+}
+
+/* Ensure background image stays covered nicely on mobile devices */
+@media screen and (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center top;
+    }
+}
