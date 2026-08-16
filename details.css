@@ -1,29 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700;800&display=swap');
+/* =========================================
+   1. FONTS & ROOT VARIABLES
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700;800&family=Montserrat:wght@800&display=swap');
 
+:root {
+    --navy: #C2B294; /* Changed from #1e293b to match envelope flap */
+    --blue: #D8C9AC; /* Changed from #60a5fa to match envelope base */
+    --beige: #fdfaf3;
+    --gold: #b48c68; 
+    --light-gray: #cbd5e1;
+    --border-color: #e2e8f0;
+    --white: #ffffff;
+}
+
+/* =========================================
+   2. GLOBAL RESET & BODY
+   ========================================= */
 * { 
     margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
-    overflow-x: hidden;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Cairo', 'Inter', sans-serif;
-    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+    color: var(--navy);
+    background-color: var(--beige);
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Changed to start so scrolling works better */
+    align-items: flex-start;
     overflow-x: hidden;
-    background-color: #fdfaf3; /* Fallback color */
-    direction: rtl; /* RTL Support for Arabic Content */
 }
 
+/* Fixed Background Image Logic */
 body::before {
     content: "";
     position: fixed;
@@ -31,92 +48,61 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("back.webp"); 
+    background-image: url("back1.webp"); 
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    z-index: -1; /* Keeps background behind text */
+    z-index: -1;
 }
 
-/* Ensure background image stays covered nicely on mobile devices */
-@media screen and (max-width: 768px) {
-    body {
-        background-attachment: scroll;
-        background-size: cover;
-        background-position: center top;
-    }
-}
-
+/* =========================================
+   3. MAIN CONTENT WRAPPER
+   ========================================= */
 .main-content {
     position: relative;
-    z-index: 1; /* Keeps content above the background */
+    z-index: 1;
     text-align: center;
     width: 100%;
     max-width: 500px;
-    padding: 40px 20px 100px 20px; /* More bottom padding for mobile */
+    padding: 40px 20px 150px 20px; /* Large bottom padding for Floating Nav */
     margin: 0 auto;
 }
 
-/* --- FLOATING MUSIC BUTTON --- */
-.music-controller { 
-    position: fixed; 
-    bottom: 25px; 
-    left: 25px; /* Moved to left for RTL layout */
-    z-index: 10000; 
-}
-
-.floating-music-btn {
-    background: #1e293b; 
-    color: white; 
-    border: none; 
-    padding: 14px 24px; 
-    border-radius: 50px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 800; 
-    font-size: 12px; 
-    letter-spacing: 0px; 
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    transition: 0.3s;
-}
-
-.floating-music-btn.playing { 
-    background: #60a5fa; 
-}
-
-.floating-music-btn:hover { 
-    transform: scale(1.05); 
-}
-
-/* --- TITLES & TEXT --- */
+/* =========================================
+   4. HEADER & TYPOGRAPHY
+   ========================================= */
 .title { 
-    font-family: 'Amiri', 'Cinzel', serif; 
-    font-size: 32px; 
-    letter-spacing: 0px; 
+    font-family: 'Cinzel', serif; 
+    font-size: 30px; 
+    letter-spacing: 5px; 
     margin-bottom: 10px; 
-    font-weight: 700;
+    text-transform: uppercase;
 }
 
 .announcement { 
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px; 
+    font-size: 12px; 
     font-weight: 700; 
-    letter-spacing: 0px; 
-    line-height: 1.8; 
+    letter-spacing: 2px; 
+    line-height: 1.6; 
     margin-bottom: 20px; 
+    color: var(--navy);
 }
 
 .blue-line { 
     width: 40px; 
     height: 1px; 
-    background-color: #cbd5e1; 
+    background-color: var(--light-gray); 
     margin: 0 auto 30px; 
 }
 
-/* --- NAMES STACK --- */
+.mini-blue-line { 
+    width: 45px; 
+    height: 2px; 
+    background-color: var(--blue); 
+    margin: 40px auto 15px; 
+}
+
+/* Names Stack */
 .names-stack { 
     display: flex; 
     flex-direction: column; 
@@ -126,46 +112,47 @@ body::before {
 }
 
 .main-name { 
-    font-family: 'Amiri', 'Cinzel', serif; 
-    font-size: 36px; 
-    letter-spacing: 0px; 
+    font-family: 'Cinzel', serif; 
+    font-size: 34px; 
+    letter-spacing: 6px; 
     font-weight: 700;
 }
 
 .role { 
-    font-family: 'Cairo', sans-serif;
-    font-size: 12px; 
+    font-size: 11px; 
     font-weight: 700; 
-    letter-spacing: 0px; 
+    letter-spacing: 3px; 
     color: #64748b; 
 }
 
 .small-ampersand { 
-    font-family: 'Amiri', 'Playfair Display', serif; 
+    font-family: 'Playfair Display', serif; 
     font-style: italic; 
-    font-size: 32px; 
-    color: #60a5fa; 
+    font-size: 28px; 
+    color: #64748b;
 }
 
 .name-finish-line { 
     width: 50px; 
     height: 2px; 
-    background: linear-gradient(90deg, transparent, #60a5fa, transparent); 
+    background: linear-gradient(90deg, transparent, var(--blue), transparent); 
     margin-top: 15px; 
 }
 
-/* --- GALLERY --- */
+/* =========================================
+   5. PHOTO GALLERY
+   ========================================= */
 .gallery-title { 
-    font-family: 'Amiri', 'Cinzel', serif; 
-    font-size: 28px; 
-    letter-spacing: 0px; 
+    font-family: 'Cinzel', serif; 
+    font-size: 26px; 
+    letter-spacing: 6px; 
     margin-bottom: 25px; 
     font-weight: 700; 
 }
 
 .photo-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
+    display: flex; 
+    justify-content: center; 
     gap: 15px; 
     margin-bottom: 50px; 
 }
@@ -175,6 +162,8 @@ body::before {
     border-radius: 15px; 
     overflow: hidden; 
     height: 180px; 
+    width: 100%;
+    max-width: 220px; 
     box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
 }
 
@@ -184,7 +173,9 @@ body::before {
     object-fit: cover; 
 }
 
-/* --- RECEPTION & COUNTDOWN --- */
+/* =========================================
+   6. COUNTDOWN SECTION
+   ========================================= */
 .reception-section { 
     margin-bottom: 50px; 
 }
@@ -193,52 +184,69 @@ body::before {
     display: block; 
     font-size: 40px; 
     font-weight: 800; 
-    color: #1e293b; 
+    color: var(--navy); 
 }
 
 .big-date { 
-    font-family: 'Cairo', sans-serif;
     display: block; 
     font-size: 16px; 
     font-weight: 700; 
-    letter-spacing: 0px; 
+    letter-spacing: 1px; 
     margin: 10px 0 30px; 
 }
 
-.countdown-container { 
-    display: flex; 
-    justify-content: center; 
-    gap: 10px; 
-    direction: ltr; /* Keeps countdown number order left-to-right */
+/* --- COUNTDOWN ALIGNMENT --- */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
 }
 
-.time-unit { 
-    background: rgba(96, 165, 250, 0.1); 
-    padding: 10px; 
-    border-radius: 12px; 
-    min-width: 65px; 
+.time-unit {
+    background: #ffffff; /* Changed to solid white for clarity */
+    padding: 12px 0;
+    border-radius: 12px;
+    width: 75px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Optional: adds a soft shadow for better contrast */
 }
 
-.time-unit span { 
-    font-size: 24px; 
-    font-weight: 800; 
+.time-unit span {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 5px;
 }
 
 .time-unit label { 
-    font-family: 'Cairo', sans-serif;
-    font-size: 10px; 
+    font-size: 9px; 
     font-weight: 800; 
-    color: #60a5fa; 
+    color: var(--blue); 
     display: block;
 }
+/* --- DAY SCHEDULE (TIMELINE) ALIGNMENT --- */
+.timeline-item {
+    display: flex;
+    align-items: center; /* Vertically centers dot with text */
+    width: 100%;
+    margin-bottom: 35px;
+}
 
-/* --- CALENDAR & VENUE --- */
+
+
+/* =========================================
+   7. CALENDAR & VENUE
+   ========================================= */
 .calendar-wrapper { 
     width: 100%; 
     max-width: 360px; 
     margin: 40px auto; 
     border-radius: 20px; 
     box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
+    background: white;
 }
 
 .calendar-wrapper img { 
@@ -247,41 +255,45 @@ body::before {
     display: block;
 }
 
-.mini-blue-line { 
-    width: 45px; 
-    height: 2px; 
-    background-color: #60a5fa; 
-    margin: 40px auto 15px; 
-}
-
 .venue-name { 
-    font-family: 'Amiri', 'Cinzel', serif; 
+    font-family: 'Cinzel', serif; 
     font-size: 22px; 
     font-weight: 700; 
-    letter-spacing: 0px; 
+    letter-spacing: 2px; 
 }
 
 .venue-location { 
-    font-family: 'Cairo', sans-serif;
     font-size: 14px; 
     color: #64748b; 
     margin: 5px 0 15px; 
 }
 
-.map-link-btn { 
-    font-family: 'Cairo', sans-serif;
-    display: inline-block; 
-    padding: 12px 28px; 
-    border-radius: 50px; 
-    border: 1px solid #60a5fa; 
-    color: #60a5fa; 
-    text-decoration: none; 
-    font-weight: 700; 
-    font-size: 12px; 
-    letter-spacing: 0px;
+.map-link-btn {
+    display: inline-block;
+    padding: 14px 45px;
+    background: transparent;
+    border: 1.5px solid #C2B294; /* Changed from #60a5fa */
+    color: #C2B294;              /* Changed from #60a5fa */
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
 }
 
-/* --- TIMELINE SCHEDULE --- */
+/* Hover effect: slight color fill so the user knows it's clickable */
+.map-link-btn:hover {
+    background: rgba(194, 178, 148, 0.1); /* Very faint shade of #C2B294 */
+    border-color: #D8C9AC; /* Changed from #3b82f6 */
+    color: #D8C9AC;        /* Changed from #3b82f6 */
+}
+
+/* =========================================
+   8. DAY SCHEDULE (TIMELINE)
+   ========================================= */
 .schedule-section {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -294,17 +306,7 @@ body::before {
     margin: 40px auto; 
 }
 
-.timeline::before { 
-    content: ''; 
-    position: absolute; 
-    top: 5px; 
-    bottom: 5px; 
-    left: 50%; 
-    width: 2px; 
-    margin-left: -1px; 
-    background-color: #60a5fa; 
-    opacity: 0.3; 
-}
+
 
 .timeline-item { 
     display: flex; 
@@ -317,49 +319,133 @@ body::before {
 
 .time { 
     flex: 1; 
-    flex-basis: 0; 
-    text-align: left; /* Reversed for RTL */
-    padding-left: 25px; /* Reversed padding */
-    padding-right: 0;
-    font-family: 'Cairo', 'Inter', sans-serif;
+    text-align: right; 
+    padding-right: 25px; 
     font-size: 20px; 
     font-weight: 700; 
-    color: #1e293b;
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum";
-    direction: ltr; /* Keeps digital time numbers formatted properly */
+    color: var(--navy);
 }
 
-.dot-container { 
-    width: 20px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    flex-shrink: 0; 
+.dot-container {
+    width: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .dot { 
     width: 14px; 
     height: 14px; 
-    background-color: #1e293b; 
+    background-color: var(--navy); 
     border-radius: 50%; 
-    border: 3px solid white; 
+    border: 3px solid var(--white); 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
-.event { 
-    flex: 1; 
-    flex-basis: 0; 
-    text-align: right; /* Reversed for RTL */
-    padding-right: 25px; /* Reversed padding */
-    padding-left: 0;
-    font-family: 'Cairo', sans-serif;
-    font-size: 17px; 
-    font-weight: 800; 
-    color: #1e293b;
+.event {
+    flex: 1;
+    text-align: left;
+    padding-left: 15px;
+    font-size: 16px;
+    font-weight: 800;
 }
 
-/* --- GUESTBOOK --- */
+/* =========================================
+   9. RSVP SECTION
+   ========================================= */
+.rsvp-section {
+    margin-bottom: 50px;
+    padding: 0 10px;
+}
+
+.rsvp-form {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 25px;
+    border-radius: 25px;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+    border: 1px solid var(--border-color);
+}
+
+.rsvp-input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    background: white;
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    font-size: 14px;
+}
+
+.guest-counter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.guest-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+/* --- RSVP COUNTER ALIGNMENT --- */
+.counter-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cnt-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0; /* Centers the + and - symbols perfectly */
+}
+
+.cnt-btn:hover { background: #f8fafc; transform: scale(1.1); }
+
+#guest-count-display {
+    font-size: 20px;
+    font-weight: 800;
+    min-width: 30px; /* Fixed width so it doesn't move when increasing */
+    text-align: center;
+}
+
+.rsvp-confirm-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(30, 41, 59, 0.2);
+    transition: 0.3s;
+}
+
+.rsvp-confirm-btn:hover {
+    background: var(--blue);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   10. GUESTBOOK SECTION
+   ========================================= */
+.guestbook-section {
+    margin-bottom: 20px;
+}
+
 .guestbook-form { 
     max-width: 350px; 
     margin: 20px auto; 
@@ -372,21 +458,26 @@ body::before {
 .guestbook-form textarea { 
     padding: 15px; 
     border-radius: 15px; 
-    border: 1px solid #cbd5e1; 
-    font-family: 'Cairo', sans-serif; 
-    font-size: 16px; /* Prevents auto-zoom on iOS devices */
+    border: 1px solid var(--border-color); 
+    font-family: 'Inter', sans-serif; 
+    font-size: 16px; 
     width: 100%;
+    outline: none;
 }
 
 .oval-btn-small { 
-    font-family: 'Cairo', sans-serif;
     padding: 14px; 
-    background: #1e293b; 
+    background: var(--navy); 
     color: white; 
     border-radius: 50px; 
     border: none; 
     font-weight: 700; 
     cursor: pointer; 
+    transition: 0.3s;
+}
+
+.oval-btn-small:hover {
+    background: var(--blue);
 }
 
 .wish-card {
@@ -395,119 +486,224 @@ body::before {
     padding: 20px;
     border-radius: 20px;
     margin-top: 15px;
-    text-align: right; /* Reversed for RTL */
+    text-align: left;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .wish-card h4 { 
-    font-family: 'Cairo', sans-serif;
     font-size: 14px; 
     font-weight: 800; 
-    color: #1e293b; 
+    color: var(--navy); 
+    text-transform: uppercase; 
     margin-bottom: 5px;
 }
 
 .wish-card p {
-    font-family: 'Cairo', sans-serif;
     font-size: 14px;
     color: #475569;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
-/* --- NAVIGATION & AFTER PARTY --- */
+/* Delete button inside wish card */
+.delete-wish-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 700;
+}
+
+/* =========================================
+   11. FOOTER & NAVIGATION
+   ========================================= */
+.nav {
+    margin-top: 10px;
+}
+
 .oval-btn { 
-    font-family: 'Cairo', sans-serif;
     display: inline-block; 
     padding: 16px 70px; 
-    background: #1e293b; 
+    background: var(--navy); 
     color: white; 
     border-radius: 50px; 
     text-decoration: none; 
     font-weight: 800; 
-    margin-top: 40px; 
-}
-
-.after-party-trigger {
-    display: block;
-    margin: 20px auto 5px auto;
-    background: transparent;
-    border: 1px solid #60a5fa;
-    color: #60a5fa;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0px;
-    cursor: pointer;
+    margin-top: 10px; 
     transition: 0.3s;
 }
 
-.after-party-trigger:hover {
-    background: #60a5fa;
-    color: white;
+.oval-btn:hover {
+    background: var(--blue);
 }
 
-/* Container to center the badge */
+/* Credit Badge */
 .credit-badge-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-top: 40px;
     padding-bottom: 20px;
+    gap: 10px;
 }
 
-/* The White Oval Background */
-.credit-oval-badge {
-    background-color: white;
-    padding: 10px 25px;
-    border-radius: 50px; /* Makes it a perfect oval */
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Soft elegant shadow */
-    border: 1px solid rgba(0, 0, 0, 0.03);
-}
-
-/* "made by" text style */
 .made-by-text {
     font-size: 11px;
     color: #94a3b8;
-    font-family: 'Cairo', sans-serif;
+    text-transform: lowercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
 }
 
-/* MIRZAM logo style */
+.mirzam-circular-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Makes it a perfect circle */
+    object-fit: cover; /* Ensures the image fits without stretching */
+    border: 2px solid #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Adds a small pop effect when clicked or hovered */
+.mirzam-circular-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.credit-oval-badge {
+    background-color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.made-by-text {
+    font-size: 10px;
+    color: #94a3b8;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+}
+
 .mirzam-logo-link {
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #0a1128; /* Navy Blue */
+    color: #0a1128;
     font-size: 11px;
-    transition: all 0.3s ease;
-    direction: ltr; /* Retains Latin logo styling */
 }
 
-/* .EG gold style */
 .mirzam-logo-link .gold-text {
-    color: #c5a059; /* Gold accent */
+    color: #c5a059;
     font-weight: 400;
 }
 
-.mirzam-logo-link:hover {
-    opacity: 0.7;
-    transform: scale(1.02);
+/* =========================================
+   12. FLOATING TAB BAR
+   ========================================= */
+.floating-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    height: 70px;
+    border-radius: 50px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
 }
 
-/* --- MODAL POPUP STYLES --- */
+.nav-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    color: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: 0.3s;
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.nav-item i { font-size: 20px; }
+.nav-item span { font-size: 11px; font-weight: 800; text-transform: uppercase; }
+
+/* Location Submenu */
+.location-submenu {
+    position: absolute;
+    bottom: 85px; 
+    left: 40%;
+    transform: translateX(-50%) scale(0);
+    background: white;
+    width: 180px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: bottom center;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.location-submenu.active {
+    transform: translateX(-50%) scale(1);
+    visibility: visible;
+    opacity: 1;
+}
+
+.location-submenu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    text-decoration: none;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.location-submenu a:hover {
+    background: #f8fafc;
+}
+
+.menu-divider { height: 1px; background: #f1f5f9; margin: 0 10px; }
+
+/* =========================================
+   13. MODALS (GUESTLIST & AFTERPARTY)
+   ========================================= */
 .modal-overlay {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    height: 100dvh;
+    height: 100vh;
     background: rgba(30, 41, 59, 0.8);
     z-index: 20000;
     justify-content: center;
@@ -516,11 +712,11 @@ body::before {
 }
 
 .modal-content {
-    background: #fdfaf3;
+    background: var(--beige);
     padding: 30px;
     border-radius: 25px;
     width: 90%;
-    max-width: 350px;
+    max-width: 380px;
     text-align: center;
     position: relative;
     box-shadow: 0 20px 50px rgba(0,0,0,0.3);
@@ -535,68 +731,80 @@ body::before {
 .close-modal {
     position: absolute;
     top: 15px;
-    left: 20px; /* Positioned left for RTL layout */
-    right: auto;
+    right: 20px;
     font-size: 28px;
-    color: #1e293b;
+    color: var(--navy);
     cursor: pointer;
-    line-height: 1;
 }
 
-.modal-content .venue-location {
-    margin: 15px 0 25px 0;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* --- MOBILE SPECIFIC MEDIA QUERIES --- */
+/* =========================================
+   14. MOBILE RESPONSIVENESS
+   ========================================= */
 @media screen and (max-width: 768px) {
-    body {
-        background-attachment: scroll;
-        background-size: cover;
-        background-position: top center;
-    }
-    
     .main-content {
-        padding: 40px 15px;
+        padding: 40px 15px 140px 15px;
     }
 
-    .title {
-        font-size: 26px;
-    }
+    .title { font-size: 24px; }
+    .main-name { font-size: 28px; }
 
-    .main-name {
-        font-size: 30px;
-    }
+    .photo-placeholder { height: 160px; }
 
-    .music-controller {
+   .time {
+    flex: 1; /* Fixed width for times */
+    text-align: right; /* Pushes numbers against the dots */
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    padding-right: 15px;
+}
+    .event { font-size: 15px; padding-left: 15px; }
+    
+    .floating-nav {
+        width: 95%;
         bottom: 15px;
-        left: 15px;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .time {
-        font-size: 16px;
-        padding-left: 15px;
-    }
-
-    .event {
-        font-size: 15px;
-        padding-right: 15px;
-    }
-
+    .countdown-container { gap: 5px; }
+    .time-unit { min-width: 55px; padding: 8px; }
+    .time-unit span { font-size: 20px; }
+    
     .oval-btn {
         padding: 14px 45px;
     }
-
-    .photo-placeholder {
-        height: 140px;
-    }
 }
 
-@media screen and (max-width: 768px) {
-    body::before {
-        background-attachment: scroll; /* Better performance on older phones */
-    }
+/* Hide old music controller if existing */
+.music-controller {
+    display: none !important;
+}
+
+.admin-view-btn {
+    display: block;
+    margin: 15px auto 0; /* Centers it and adds space from the button above */
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-view-btn:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #1e293b;
+}
+/* --- ALIGNMENT FIX FOR ALL NUMBERS --- */
+span[id], .time, .big-time, .big-date {
+    font-variant-numeric: tabular-nums; /* Forces numbers to have equal width */
+    -moz-font-feature-settings: "tnum";
+    -webkit-font-feature-settings: "tnum";
 }
