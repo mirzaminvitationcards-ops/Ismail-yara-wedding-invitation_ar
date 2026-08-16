@@ -1,11 +1,13 @@
-/* 1. Import Premium Arabic & Latin Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
+/* 1. Import Premium Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+
 
 @keyframes move {
     from { transform: translate(0, 0); }
@@ -31,7 +33,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #253346;
+    background: #D8C9AC;
     border-radius: 8px;
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
 }
@@ -43,7 +45,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #192231;
+    background: #C2B294;
     clip-path: polygon(0 0, 50% 62%, 100% 0);
     z-index: 5;
     transform-origin: top;
@@ -58,7 +60,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #253346;
+    background: #D8C9AC;
     clip-path: polygon(0 35%, 50% 62%, 100% 35%, 100% 100%, 0 100%);
     z-index: 4;
     border-radius: 0 0 8px 8px;
@@ -72,7 +74,8 @@
     transform: translateX(-50%);
     width: 65px;
     height: 65px;
-    background: radial-gradient(circle at 35% 35%, #dc2626, #7f1d1d);
+    /* Deep rich bronze/dark brown gradient */
+    background: radial-gradient(circle at 35% 35%, #8a6545, #5c3a21);
     border-radius: 50%;
     z-index: 6;
     display: flex;
@@ -80,10 +83,10 @@
     align-items: center;
     color: white;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    border: 2px solid #991b1b;
+    /* Very dark brown border to give it a heavy, stamped shadow effect */
+    border: 2px solid #3d2314;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
 /* --- THE INVITATION CARD --- */
 .invitation-card {
     position: absolute;
@@ -99,48 +102,39 @@
     z-index: 2;
     opacity: 0;
     pointer-events: none;
-    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s, opacity 0.6s ease 0.5s, z-index 0s 0.5s;
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) 0.5s,opacity 0.6s ease 0.5s, z-index 0s 0.5s;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    direction: rtl; /* RTL direction for Arabic text */
 }
 
-/* هذا الكود سيحول أي صورة قلب داخل الدائرة إلى اللون الأبيض */
-.avatar-circle img {
-    filter: brightness(0) invert(1);
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-}
 
 .avatar-circle {
-    width: 70px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 70px; 
     height: 70px;
-    border: 2px solid #5dade2;
     border-radius: 50%;
+    background: #C2B294; /* Changed from #1e293b */
+    border: 2px solid #D8C9AC; /* Changed from #5dade2 */
     margin: 0 auto 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #1e293b; /* الخلفية الكحلية ستجعل القلب الأبيض يظهر بوضوح */
     overflow: hidden;
 }
-
 .name {
-    font-family: 'Amiri', 'Cinzel', serif;
-    font-size: 34px;
-    letter-spacing: 0px;
-    color: #1e293b;
-    line-height: 1.2;
+    font-family: 'Cinzel', serif;
+    font-size: 38px;
+    letter-spacing: 3px;
+    color: #C2B294; /* Changed from #1e293b */
+    line-height: 1.1;
     font-weight: 700;
 }
 
 .and-text {
-    font-family: 'Amiri', 'Playfair Display', serif;
+    font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 42px;
-    color: #5dade2;
+    font-size: 52px;
+    color: #D8C9AC; /* Changed from #5dade2 */
     display: block;
-    margin: 4px 0;
+    margin: 8px 0;
 }
 
 .elegant-line {
@@ -152,42 +146,34 @@
 
 /* --- DATE SIZE INCREASE --- */
 .wedding-date { 
-    font-family: 'Cairo', 'Inter', sans-serif;
     font-weight: 700; 
-    color: #1e293b; 
-    font-size: 18px;
-    letter-spacing: 0px;
-    margin-top: 5px;
+    color: #C2B294; /* Changed from #1e293b */
+    font-size: 19px; 
+    letter-spacing: 1px;
 }
 
 /* --- INVITE TEXT SIZE INCREASE --- */
 .invite-text { 
-    font-family: 'Cairo', 'Inter', sans-serif;
-    color: #64748b; 
-    font-size: 15px;
-    font-weight: 600;
-    margin-top: 5px;
-    margin-bottom: 25px; 
-    line-height: 1.4;
+    color: #94a3b8; 
+    font-size: 19px; /* Increased from 13px */
+    margin-bottom: 30px; 
 }
 
 .open-btn {
-    font-family: 'Cairo', sans-serif;
     display: block;
     width: 80%;
     margin: 0 auto;
-    background: #2c3748;
+    background: #C2B294; /* Changed from #2c3748 */
     color: white;
     text-decoration: none;
-    padding: 12px 0;
+    padding: 14px 0;
     border-radius: 50px;
     font-weight: 700;
     font-size: 16px;
-    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .open-btn:hover { 
-    background: #1e293b; 
+    background: #D8C9AC; /* Changed from #1e293b */
     transform: scale(1.03); 
 }
 
