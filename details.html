@@ -39,7 +39,7 @@
     <div class="main-content">
         <!-- 1. HEADER SECTION -->
         <h1 class="title">تفاصيل الحفل</h1>
-        <p class="announcement" id="invitation-text"> يسعدنا جداً دعوتكم<br>لمشاركتنا فرحتنا في هذا اليوم المميز…
+        <p class="announcement" id="invitation-text"> يسعدنا جداً دعوتك يا<br>لمشاركتنا فرحتنا في هذا اليوم المميز…
 
 </p>
         <div class="blue-line"></div>
@@ -216,6 +216,9 @@
             </div>
         </nav>
 
+
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
         <script>
             /* --- 1. SETUP & PERSONALIZED NAME --- */
             let accompanyingGuests = 0;
@@ -226,7 +229,7 @@
                 let guestName = localStorage.getItem('wedding_guest_name');
                 if (!guestName || guestName.trim() === "") guestName = "ضيفنا العزيز";
 
-               document.getElementById('invitation-text').innerHTML = `يسعدنا جداً دعوتكم<br> 
+               document.getElementById('invitation-text').innerHTML = `يسعدنا جداً دعوتك يا<br> 
     <span style="color: #000000; font-size: 18px; font-weight: 800; text-transform: uppercase;">"${guestName}"</span> <br> 
    لمشاركتنا فرحتنا في هذا اليوم المميز…`;
                 
@@ -237,68 +240,65 @@
 
           
 
-            /* --- 3. RSVP & COUNTER LOGIC --- */
-            function updateGuests(val) {
-                accompanyingGuests = Math.max(0, accompanyingGuests + val);
-                document.getElementById('guest-count-display').innerText = accompanyingGuests;
-            }
+           /* --- 3. RSVP & COUNTER LOGIC (FIREBASE CLOUD) --- */
+function updateGuests(val) {
+    accompanyingGuests = Math.max(0, accompanyingGuests + val);
+    document.getElementById('guest-count-display').innerText = accompanyingGuests;
+}
 
-            function submitRSVP() {
-                const name = document.getElementById('rsvp-name').value;
-                if (!name) { alert("الرجاء إدخال اسمك."); return; }
+function submitRSVP() {
+    const name = document.getElementById('rsvp-name').value;
+    if (!name) { alert("الرجاء إدخال اسمك."); return; }
 
-                const rsvpData = {
-                    name: name,
-                    guests: accompanyingGuests,
-                    timestamp: new Date().toLocaleString()
-                };
+    const confirmBtn = document.querySelector('.rsvp-confirm-btn');
+    confirmBtn.innerText = "جاري التأكيد..."; // "Confirming..."
+    confirmBtn.disabled = true;
 
-                let allRSVPs = JSON.parse(localStorage.getItem('wedding_rsvps')) || [];
-                allRSVPs.push(rsvpData);
-                localStorage.setItem('wedding_rsvps', JSON.stringify(allRSVPs));
+    // Send RSVP to the Firebase "rsvps" collection
+    db.collection("rsvps").add({
+        name: name,
+        guests: accompanyingGuests,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        confirmBtn.innerText = "تم التأكيد ✓";
+        document.getElementById('rsvp-status').style.display = 'block';
+    }).catch((error) => {
+        console.error("Error writing RSVP: ", error);
+        alert("حدث خطأ أثناء التأكيد. حاول مرة أخرى.");
+        confirmBtn.innerText = "تأكيد الحضور 💍";
+        confirmBtn.disabled = false;
+    });
+}
 
-                document.querySelector('.rsvp-confirm-btn').innerText = "تم التأكيد ✓";
-                document.querySelector('.rsvp-confirm-btn').disabled = true;
-                document.getElementById('rsvp-status').style.display = 'block';
-            }
+           function openAdminModal() {
+    const container = document.getElementById('guest-list-container');
+    container.innerHTML = "جاري التحميل..."; // "Loading..."
+    document.getElementById('adminModal').style.display = 'flex';
 
-            /* --- 4. ADMIN & AFTER PARTY LOGIC --- */
-            function checkAdminAccess() {
-                if (prompt("كلمة مرور المسؤول:") === "6677") {
-                    openAdminModal();
-                } else {
-                    alert("كلمة المرور غير صحيحة.");
-                }
-            }
+    // Fetch the guest list from Firebase
+    db.collection("rsvps").orderBy("timestamp", "desc").get().then((querySnapshot) => {
+        let totalPlus = 0;
+        let mainGuests = 0;
+        container.innerHTML = ""; // Clear loading text
 
-            function openAdminModal() {
-                const rsvps = JSON.parse(localStorage.getItem('wedding_rsvps')) || [];
-                const container = document.getElementById('guest-list-container');
-                let totalPlus = 0;
-                container.innerHTML = "";
-                rsvps.forEach(item => {
-                    totalPlus += parseInt(item.guests);
-                    const div = document.createElement('div');
-                    div.style.cssText = "border-bottom:1px solid #eee; padding:10px 0;";
-                    div.innerHTML = `<strong>${item.name}</strong><br>المرافقون: ${item.guests}`;
-                    container.appendChild(div);
-                });
-                document.getElementById('total-main-guests').innerText = rsvps.length;
-                document.getElementById('total-plus-ones').innerText = totalPlus;
-                document.getElementById('adminModal').style.display = 'flex';
-            }
+        querySnapshot.forEach((doc) => {
+            const item = doc.data();
+            mainGuests++;
+            totalPlus += parseInt(item.guests || 0);
 
-            function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+            const div = document.createElement('div');
+            div.style.cssText = "border-bottom:1px solid #eee; padding:10px 0;";
+            div.innerHTML = `<strong>${item.name}</strong><br>المرافقون: ${item.guests}`;
+            container.appendChild(div);
+        });
 
-            function accessAfterParty() {
-                if (prompt("رمز الدخول:") === "6627") {
-                    document.getElementById('partyModal').style.display = 'flex';
-                } else {
-                    alert("الرمز غير صحيح.");
-                }
-            }
-
-            function closeModal() { document.getElementById('partyModal').style.display = 'none'; }
+        document.getElementById('total-main-guests').innerText = mainGuests;
+        document.getElementById('total-plus-ones').innerText = totalPlus;
+    }).catch((error) => {
+        console.error("Error getting RSVPs: ", error);
+        container.innerHTML = "حدث خطأ في تحميل البيانات."; // "Error loading data"
+    });
+}
 
             /* --- 5. NAVIGATION & SCROLLING --- */
             function toggleLocationMenu(event) {
@@ -327,52 +327,68 @@ setInterval(() => {
     document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
 }, 1000);
 
-            /* --- 7. GUESTBOOK LOGIC --- */
-            const wishForm = document.getElementById('guestbook-form');
-            const wishesDisplay = document.getElementById('wishes-display');
+           /* --- 7. GUESTBOOK LOGIC (FIREBASE CLOUD) --- */
 
-            wishForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-                wishes.unshift({
-                    id: Date.now(), 
-                    ownerId: myUserId,
-                    name: document.getElementById('guest-name').value,
-                    wish: document.getElementById('guest-wish').value
-                });
-                localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-                wishForm.reset(); 
-                loadWishes();
-            });
+const firebaseConfig = {
+    apiKey: "AIzaSyCB5tx5ffwZENpTqU9otGTvxjmlgqyjwQ",
+    authDomain: "ismail-yara-wedding.firebaseapp.com",
+    projectId: "ismail-yara-wedding",
+    storageBucket: "ismail-yara-wedding.firebasestorage.app",
+    messagingSenderId: "192107873346",
+    appId: "1:192107873346:web:db146674f6632ffb3759db"
+};
 
-            function loadWishes() {
-                wishesDisplay.innerHTML = '';
-                const wishes = JSON.parse(localStorage.getItem('weddingWishes')) || [];
-                wishes.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'wish-card';
-                    const deleteBtn = item.ownerId === myUserId ? `<button class="delete-wish-btn" onclick="deleteWish(${item.id})">حذف</button>` : '';
-                    card.innerHTML = `<h4>${item.name}</h4><p>"${item.wish}"</p>${deleteBtn}`;
-                    wishesDisplay.appendChild(card);
-                });
-            }
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-            function deleteWish(id) {
-                if (confirm("حذف هذه الرسالة؟")) {
-                    let wishes = JSON.parse(localStorage.getItem('weddingWishes')).filter(w => w.id !== id);
-                    localStorage.setItem('weddingWishes', JSON.stringify(wishes));
-                    loadWishes();
-                }
-            }
+const wishForm = document.getElementById('guestbook-form');
+const wishesDisplay = document.getElementById('wishes-display');
 
-            function checkAdminAccess() {
-        const password = prompt("مطلوب كلمة مرور المسؤول:");
-        if (password === "6677") {
-            openAdminModal(); // This opens the guest list window
-        } else if (password !== null) {
-            alert("كلمة المرور غير صحيحة.");
-        }
+// Save new wishes to the cloud when submitted
+wishForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    db.collection("wishes").add({
+        ownerId: myUserId,
+        name: document.getElementById('guest-name').value,
+        wish: document.getElementById('guest-wish').value,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        wishForm.reset(); 
+        document.getElementById('guest-name').value = localStorage.getItem('wedding_guest_name') || "";
+    }).catch((error) => {
+        console.error("Error writing document: ", error);
+        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+    });
+});
+
+// Real-time listener: Instantly load wishes for everyone!
+db.collection("wishes").orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
+    wishesDisplay.innerHTML = '';
+    
+    querySnapshot.forEach((doc) => {
+        const item = doc.data();
+        const card = document.createElement('div');
+        card.className = 'wish-card';
+        
+        const deleteBtn = item.ownerId === myUserId 
+            ? `<button class="delete-wish-btn" onclick="deleteWish('${doc.id}')">حذف</button>` 
+            : '';
+            
+        card.innerHTML = `<h4>${item.name}</h4><p>"${item.wish}"</p>${deleteBtn}`;
+        wishesDisplay.appendChild(card);
+    });
+});
+
+// Cloud Delete Function
+function deleteWish(docId) {
+    if (confirm("حذف هذه الرسالة؟")) {
+        db.collection("wishes").doc(docId).delete().catch((error) => {
+            console.error("Error removing document: ", error);
+        });
     }
+}
 
 	/* --- 2. SMART MUSIC LOGIC --- */
 const weddingAudio = document.getElementById("weddingMusic");
