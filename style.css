@@ -1,6 +1,5 @@
 /* 1. Import Premium Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,400&family=Inter:wght@400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -120,10 +119,10 @@
     overflow: hidden;
 }
 .name {
-    font-family: 'Cinzel', serif;
+    font-family: 'Amiri', serif;
     font-size: 38px;
     letter-spacing: 3px;
-    color: #C2B294; /* Changed from #1e293b */
+    color: #000000;
     line-height: 1.1;
     font-weight: 700;
 }
@@ -132,7 +131,7 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: 52px;
-    color: #D8C9AC; /* Changed from #5dade2 */
+    color: #000000;
     display: block;
     margin: 8px 0;
 }
@@ -140,14 +139,14 @@
 .elegant-line {
     width: 50px;
     height: 1px;
-    background: #cbd5e1;
+    color: #000000;
     margin: 15px auto;
 }
 
 /* --- DATE SIZE INCREASE --- */
 .wedding-date { 
     font-weight: 700; 
-    color: #C2B294; /* Changed from #1e293b */
+    color: #000000;
     font-size: 19px; 
     letter-spacing: 1px;
 }
