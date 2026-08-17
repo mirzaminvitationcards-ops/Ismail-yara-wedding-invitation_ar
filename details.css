@@ -136,7 +136,7 @@ body::before {
 .name-finish-line { 
     width: 50px; 
     height: 2px; 
-    background: linear-gradient(90deg, transparent, var(--blue), transparent); 
+    background: linear-gradient(90deg, transparent, #000000, transparent); 
     margin-top: 15px; 
 }
 
