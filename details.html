@@ -9,17 +9,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <style>
+  <style>
         /* Delete button styling for guestbook entries */
         .wish-card { position: relative; }
         .delete-wish-btn {
             position: absolute;
             top: 15px;
-            left: 15px; /* Switched from right to left for RTL layout */
+            right: 15px; /* Places the button cleanly on the right side */
+            left: auto !important; /* Prevents the stretching issue */
+            width: max-content !important; 
             background: #fee2e2;
             color: #ef4444;
             border: none;
-            padding: 5px 10px;
+            padding: 5px 15px;
             border-radius: 5px;
             font-size: 12px;
             cursor: pointer;
@@ -53,18 +55,11 @@
             <div class="name-finish-line"></div>
         </div>
 
-        <!-- 2. PHOTO GALLERY -->
-        <div class="gallery-section" id="gallery-section">
-            <h3 class="gallery-title">معرض الصور</h3>
-            <div class="photo-grid">
-                <div class="photo-placeholder"><img src="yara-ismail.webp" alt="Wedding Photo 1"></div>
-                
-            </div>
-        </div>
+       
 
         <!-- 3. RECEPTION & COUNTDOWN -->
         <div class="reception-section" id="reception-section">
-            <div class="mini-blue-line"></div>
+           
             <h2 class="gallery-title">تفاصيل الاستقبال</h2>
             <div class="time-date-box">
                 <span class="big-time">07:00</span>
@@ -175,6 +170,7 @@
                 <h3 class="gallery-title" style="font-size: 20px; margin-top: 10px;">قائمة الضيوف</h3>
                 <div class="mini-blue-line"></div>
                 <div id="admin-stats" style="margin-bottom: 20px;">
+                    <p>الدعوات المفتوحة: <strong id="total-opens">0</strong></p>
                     <p>الضيوف الأساسيون: <strong id="total-main-guests">0</strong></p>
                     <p>المرافقون: <strong id="total-plus-ones">0</strong></p>
                 </div>
@@ -235,7 +231,6 @@
                 
                 document.getElementById('guest-name').value = guestName;
                 document.getElementById('rsvp-name').value = guestName;
-                loadWishes();
             });
 
           
@@ -251,10 +246,9 @@ function submitRSVP() {
     if (!name) { alert("الرجاء إدخال اسمك."); return; }
 
     const confirmBtn = document.querySelector('.rsvp-confirm-btn');
-    confirmBtn.innerText = "جاري التأكيد..."; // "Confirming..."
+    confirmBtn.innerText = "جاري التأكيد..."; 
     confirmBtn.disabled = true;
 
-    // Send RSVP to the Firebase "rsvps" collection
     db.collection("rsvps").add({
         name: name,
         guests: accompanyingGuests,
@@ -270,16 +264,40 @@ function submitRSVP() {
     });
 }
 
+        function checkAdminAccess() {
+            const password = prompt("مطلوب كلمة مرور المسؤول:");
+            if (password === "6677") {
+                if (localStorage.getItem('is_wedding_admin') !== 'true') {
+                    localStorage.setItem('is_wedding_admin', 'true');
+                    alert("تم منح صلاحيات المسؤول! جاري التحديث لتفعيل صلاحيات الحذف...");
+                    openAdminModal();
+                    setTimeout(() => window.location.reload(), 1500); 
+                } else {
+                    openAdminModal();
+                }
+            } else if (password !== null) {
+                alert("كلمة المرور خاطئة.");
+            }
+        }
+
            function openAdminModal() {
     const container = document.getElementById('guest-list-container');
-    container.innerHTML = "جاري التحميل..."; // "Loading..."
+    container.innerHTML = "جاري التحميل..."; 
     document.getElementById('adminModal').style.display = 'flex';
 
-    // Fetch the guest list from Firebase
+    // 1. Fetch total unique envelope opens
+    db.collection("envelope_opens").get().then((snap) => {
+        document.getElementById('total-opens').innerText = snap.size; 
+    }).catch((error) => {
+        console.error("Error getting opens: ", error);
+        document.getElementById('total-opens').innerText = "خطأ";
+    });
+
+    // 2. Fetch the guest list from Firebase
     db.collection("rsvps").orderBy("timestamp", "desc").get().then((querySnapshot) => {
         let totalPlus = 0;
         let mainGuests = 0;
-        container.innerHTML = ""; // Clear loading text
+        container.innerHTML = ""; 
 
         querySnapshot.forEach((doc) => {
             const item = doc.data();
@@ -296,9 +314,21 @@ function submitRSVP() {
         document.getElementById('total-plus-ones').innerText = totalPlus;
     }).catch((error) => {
         console.error("Error getting RSVPs: ", error);
-        container.innerHTML = "حدث خطأ في تحميل البيانات."; // "Error loading data"
+        container.innerHTML = "حدث خطأ في تحميل البيانات."; 
     });
 }
+
+            function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+            function accessAfterParty() {
+                if (prompt("رمز الدخول:") === "6627") {
+                    document.getElementById('partyModal').style.display = 'flex';
+                } else {
+                    alert("رمز خاطئ.");
+                }
+            }
+            
+            function closeModal() { document.getElementById('partyModal').style.display = 'none'; }
 
             /* --- 5. NAVIGATION & SCROLLING --- */
             function toggleLocationMenu(event) {
@@ -318,7 +348,7 @@ function submitRSVP() {
             }
 
            /* --- 6. COUNTDOWN LOGIC --- */
-const targetDate = new Date("September 4, 2026 19:00:00").getTime(); /* Changed 20:00:00 to 19:00:00 */
+const targetDate = new Date("September 4, 2026 19:00:00").getTime(); 
 setInterval(() => {
     const diff = targetDate - new Date().getTime();
     document.getElementById("days").innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
@@ -367,12 +397,14 @@ wishForm.addEventListener('submit', (e) => {
 db.collection("wishes").orderBy("timestamp", "desc").onSnapshot((querySnapshot) => {
     wishesDisplay.innerHTML = '';
     
+    const isAdmin = localStorage.getItem('is_wedding_admin') === 'true'; 
+
     querySnapshot.forEach((doc) => {
         const item = doc.data();
         const card = document.createElement('div');
         card.className = 'wish-card';
         
-        const deleteBtn = item.ownerId === myUserId 
+        const deleteBtn = (item.ownerId === myUserId || isAdmin)
             ? `<button class="delete-wish-btn" onclick="deleteWish('${doc.id}')">حذف</button>` 
             : '';
             
@@ -402,7 +434,7 @@ window.addEventListener('load', () => {
         let playPromise = weddingAudio.play();
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                updateMusicUI(); // Updates the play/pause button automatically
+                updateMusicUI(); 
             }).catch(error => {
                 console.log("Browser blocked cross-page autoplay. Awaiting first tap.");
             });
@@ -483,7 +515,6 @@ window.addEventListener('load', () => {
         }
     }, 1500); 
 });
-
         </script>
     </body>
     </html>
