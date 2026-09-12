@@ -1196,14 +1196,16 @@
             if (galMenu) galMenu.classList.remove('active');
         }
 
-        /* --- 6. COUNTDOWN LOGIC --- */
+        /* --- COUNTDOWN LOGIC --- */
         const targetDate = new Date("September 4, 2026 19:00:00").getTime();
         setInterval(() => {
             const diff = targetDate - new Date().getTime();
-            document.getElementById("days").innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
-            document.getElementById("hours").innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
+                document.getElementById("hours").innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+            }
         }, 1000);
 
 
